@@ -450,6 +450,7 @@
       list-style: none;
     }
 
+    /* [수정됨] 인스타그램 인앱 브라우저 대응을 위한 오버레이 및 닫기 버튼 스타일 수정 */
     .inquiry-overlay {
       position: fixed;
       top: 0;
@@ -460,13 +461,14 @@
       z-index: 2000;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start; /* 상단부터 정렬되도록 변경 */
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
       backdrop-filter: blur(10px);
       overflow-y: auto;
-      padding: 4rem 1rem;
+      -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
+      padding: 5rem 1.5rem 4rem 1.5rem; /* 상단에 충분한 여백을 주어 이름 칸이 잘리지 않게 함 */
     }
 
     .inquiry-overlay.active {
@@ -481,16 +483,18 @@
     }
 
     .close-overlay {
-      position: absolute;
-      top: -3rem;
-      right: 0;
-      background: none;
-      border: none;
+      position: fixed; /* absolute에서 fixed로 변경하여 스크롤과 무관하게 항상 고정 */
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--bg);
+      border: 1px solid rgba(128,128,128,0.3);
+      padding: 0.5rem 1rem;
       color: var(--text);
       font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       letter-spacing: 2px;
       cursor: pointer;
+      z-index: 2100;
     }
 
     .inquiry-content h2 {
