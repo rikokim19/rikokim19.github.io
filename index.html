@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIKO — Etching & Illustration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+      (function() {
+          emailjs.init("dB0Q2cv_50XALAZq4");
+      })();
+  </script>
+
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --text: #f0f0f0;
+      --sub: #777777;
+      --accent: #ffffff;
+      --overlay-bg: rgba(13, 13, 13, 0.96);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f4f4;
+      --text: #111111;
+      --sub: #888888;
+      --accent: #111111;
+      --overlay-bg: rgba(244, 244, 244, 0.96);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    /* 프리로더 효과 */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0d0d;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 1.6s ease;
+    }
+    #preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .preloader-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      letter-spacing: 8px;
+      color: #ffffff;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: preloaderFade 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes preloaderFade {
+      0% { opacity: 0; }
+      35% { opacity: 1; }
+      65% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      mix-blend-mode: difference;
+    }
+
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: #ffffff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      opacity: 0.6;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 5px;
+    }
+
+    .lang-s-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.68rem;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+    }
+
+    .lang-s-btn.active {
+      color: #ffffff;
+    }
+
+    .lookbook-container {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 9rem 1.5rem 5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 7rem;
+    }
+
+    .lookbook-intro {
+      text-align: center;
+      padding: 3rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .lookbook-intro.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lookbook-intro h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 5px;
+      color: var(--sub);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .lookbook-intro p {
+      font-size: 1.35rem;
+      color: var(--text);
+      line-height: 1.8;
+      font-weight: 300;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* 카테고리 탭 스타일 */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      margin: -3rem 0 1rem 0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--sub);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      padding: 0.3rem 0;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      color: var(--text);
+      border-bottom: 1px solid var(--text);
+    }
+
+    .tab-divider {
+      color: var(--sub);
+      opacity: 0.4;
+      font-size: 0.7rem;
+    }
+
+    /* 아티스트 노트 스타일 */
+    .artist-quote {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-family: 'Cinzel', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: var(--sub);
+      border-top: 1px solid rgba(128,128,128,0.15);
+      border-bottom: 1px solid rgba(128,128,128,0.15);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .artist-quote.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .look-item {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .look-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .look-item.hidden {
+      display: none !important;
+    }
+
+    .look-img-wrap {
+      width: 100%;
+      background: #111;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+      cursor: zoom-in;
+    }
+
+    .look-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: contrast(1.1) grayscale(20%);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .look-img-wrap img:hover {
+      transform: scale(1.02);
+    }
+
+    .look-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--sub);
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .look-tag {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid rgba(128,128,128,0.3);
+      color: var(--sub);
+    }
+
+    .look-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media(max-width: 768px) {
+      .look-grid-2 { grid-template-columns: 1fr; gap: 4rem; }
+      header { padding: 1.5rem 1rem; }
+    }
+
+    /* 이미지 라이트박스(팝업) 스타일 */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 3000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+    .lightbox-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 85vh;
+      object-fit: contain;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    /* 애프터케어 & 인포 섹션 스타일 */
+    .aftercare-section {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(128,128,128,0.2);
+    }
+
+    .aftercare-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .aftercare-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: var(--text);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .aftercare-header p {
+      font-size: 0.85rem;
+      color: var(--sub);
+    }
+
+    .aftercare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .care-card {
+      background: rgba(128, 128, 128, 0.03);
+      border: 1px solid rgba(128, 128, 128, 0.1);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .care-card:hover {
+      border-color: rgba(128, 128, 128, 0.4);
+    }
+
+    .care-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      color: var(--sub);
+      letter-spacing: 2px;
+    }
+
+    .care-card h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .care-card p {
+      font-size: 0.8rem;
+      color: var(--sub);
+      line-height: 1.7;
+    }
+
+    @media(max-width: 900px) {
+      .aftercare-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    .lookbook-footer-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(128,128,128,0.2);
+      font-size: 0.85rem;
+      color: var(--sub);
+    }
+
+    @media(max-width: 768px) {
+      .lookbook-footer-info { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .info-col h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: var(--text);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .info-col p, .info-col li {
+      margin-bottom: 0.4rem;
+      list-style: none;
+    }
+
+    .inquiry-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-bg);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+      padding: 4rem 1rem;
+    }
+
+    .inquiry-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .inquiry-content {
+      width: 100%;
+      max-width: 550px;
+      position: relative;
+    }
+
+    .close-overlay {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    .inquiry-content h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .clean-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group-clean {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .form-group-clean label {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      font-family: 'Cinzel', serif;
+      color: var(--sub);
+      text-transform: uppercase;
+    }
+
+    .clean-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(128,128,128,0.4);
+      color: var(--text);
+      padding: 0.6rem 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      width: 100%;
+      border-radius: 0;
+      transition: border-color 0.3s;
+    }
+
+    .clean-input:focus {
+      outline: none;
+      border-color: var(--text);
+    }
+
+    select.clean-input option {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    textarea.clean-input {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media(max-width: 600px) {
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+
+    .notice-mini {
+      font-size: 0.75rem;
+      color: var(--sub);
+      margin: 0.5rem 0 1rem 0;
+      line-height: 1.5;
+    }
+
+    .btn-submit-clean {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      transition: opacity 0.3s;
+    }
+
+    .btn-submit-clean:hover {
+      opacity: 0.8;
+    }
+
+    .insta-direct {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      font-family: 'Cinzel', serif;
+      transition: color 0.3s;
+    }
+
+    .insta-direct:hover {
+      color: var(--text);
+    }
+
+    .final-copyright {
+      text-align: center;
+      padding: 4rem 0 2rem 0;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      font-family: 'Cinzel', serif;
+      color: var(--sub);
+    }
+
+    /* 토스트 알림 스타일 */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.9rem 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      z-index: 4000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 프리로더 HTML -->
+  <div id="preloader">
+    <div class="preloader-logo">RIKO</div>
+  </div>
+
+  <header>
+    <a href="#" class="logo">RIKO</a>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <button class="lang-s-btn active" onclick="setLanguage('en')">EN</button>
+        <button class="lang-s-btn" onclick="setLanguage('kr')">KR</button>
+        <button class="lang-s-btn" onclick="setLanguage('de')">DE</button>
+      </div>
+      <button class="nav-btn" onclick="toggleTheme()" id="themeText" 
+        data-en-light="DARK" data-en-dark="LIGHT"
+        data-kr-light="다크" data-kr-dark="라이트"
+        data-de-light="DUNKEL" data-de-dark="HELL">LIGHT</button>
+      <button class="nav-btn" onclick="toggleInquiry()" style="font-weight: 500;" data-en="[ INQUIRY ]" data-kr="[ 예약문의 ]" data-de="[ ANFRAGE ]">[ INQUIRY ]</button>
+    </div>
+  </header>
+
+  <main class="lookbook-container">
+
+    <section class="lookbook-intro fade-in" id="introSection">
+      <h1 id="introTitle">Etching & Dark Illustration</h1>
+      <p id="introDesc">Translating classical printmaking textures and dark medieval engraving narratives into permanent skin art.</p>
+    </section>
+
+    <!-- 카테고리 탭 네비게이션 -->
+    <div class="category-tabs look-item">
+      <button class="tab-btn active" onclick="filterCategory('all', this)" data-en="ALL" data-kr="전체" data-de="ALLE">ALL</button>
+      <span class="tab-divider">/</span>
+      <button class="tab-btn" onclick="filterCategory('lookbook', this)" data-en="LOOKBOOK" data-kr="갤러리" data-de="LOOKBOOK">LOOKBOOK</button>
+      <span class="tab-divider">/</span>
+      <button class="tab-btn" onclick="filterCategory('wannado', this)" data-en="WANNADO" data-kr="워너두 도안" data-de="WANNADO">WANNADO</button>
+    </div>
+
+    <!-- 1. 첫 번째 아티스트 노트 -->
+    <div class="artist-quote look-item" data-en="“Preserving the melancholic shadows of antique plates onto human canvas.”" data-kr="“앤티크 판화의 우울한 그림자를 인간의 캔버스 위에 보존합니다.”" data-de="“Die melancholischen Schatten antiker Platten auf menschlicher Haut bewahren.”">
+      “Preserving the melancholic shadows of antique plates onto human canvas.”
+    </div>
+
+    <!-- 메인 대형 작업 01 (LOOKBOOK) -->
+    <div class="look-item" data-category="lookbook">
+      <div class="look-img-wrap" onclick="openLightbox('artwork1.jpg')">
+        <img src="artwork1.jpg" alt="Artwork 01">
+      </div>
+      <div class="look-meta">
+        <div>
+          <span data-en="Plate No. 01" data-kr="플레이트 No. 01" data-de="Platte Nr. 01">Plate No. 01</span> &mdash; 
+          <span style="opacity: 0.7;" data-en="Frankfurt / Custom" data-kr="프랑크푸르트 / 커스텀" data-de="Frankfurt / Custom">Frankfurt / Custom</span>
+        </div>
+        <span class="look-tag">ETCHING</span>
+      </div>
+    </div>
+
+    <!-- 워너두 디자인 예시 01 (WANNADO) -->
+    <div class="look-item" data-category="wannado">
+      <div class="look-img-wrap" onclick="openLightbox('wannado1.jpg')">
+        <img src="wannado1.jpg" alt="Wannado Design 01">
+      </div>
+      <div class="look-meta">
+        <div>
+          <span data-en="Wannado No. 01" data-kr="워너두 No. 01" data-de="Wannado Nr. 01">Wannado No. 01</span> &mdash; 
+          <span style="opacity: 0.7;" data-en="Available Flash" data-kr="예약 가능 도안" data-de="Verfügbar">Available Flash</span>
+        </div>
+        <span class="look-tag" style="border-color: var(--text); color: var(--text);">WANNADO</span>
+      </div>
+    </div>
+
+    <!-- 2. 가로형 2분할(Grid) 레이아웃 영역 (LOOKBOOK) -->
+    <div class="look-grid-2" data-category="lookbook">
+      <div class="look-item" data-category="lookbook" style="opacity:1; transform:none;">
+        <div class="look-img-wrap" onclick="openLightbox('artwork2.jpg')">
+          <img src="artwork2.jpg" alt="Artwork 02">
+        </div>
+        <div class="look-meta">
+          <span data-en="Plate No. 02" data-kr="플레이트 No. 02" data-de="Platte Nr. 02">Plate No. 02</span>
+          <span class="look-tag">Death & Rebirth</span>
+        </div>
+      </div>
+      <div class="look-item" data-category="lookbook" style="opacity:1; transform:none;">
+        <div class="look-img-wrap" onclick="openLightbox('artwork3.jpg')">
+          <img src="artwork3.jpg" alt="Artwork 03">
+        </div>
+        <div class="look-meta">
+          <span data-en="Plate No. 03" data-kr="플레이트 No. 03" data-de="Platte Nr. 03">Plate No. 03</span>
+          <span class="look-tag">BLACKWORK</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 워너두 디자인 예시 02 (WANNADO) -->
+    <div class="look-item" data-category="wannado">
+      <div class="look-img-wrap" onclick="openLightbox('wannado2.jpg')">
+        <img src="wannado2.jpg" alt="Wannado Design 02">
+      </div>
+      <div class="look-meta">
+        <div>
+          <span data-en="Wannado No. 02" data-kr="워너두 No. 02" data-de="Wannado Nr. 02">Wannado No. 02</span> &mdash; 
+          <span style="opacity: 0.7;" data-en="Available Flash" data-kr="예약 가능 도안" data-de="Verfügbar">Available Flash</span>
+        </div>
+        <span class="look-tag" style="border-color: var(--text); color: var(--text);">WANNADO</span>
+      </div>
+    </div>
+
+    <!-- 두 번째 아티스트 노트 -->
+    <div class="artist-quote look-item" data-en="“Every precise line carries the weight of classical narrative.”" data-kr="“모든 정교한 선에는 클래식 서사의 무게가 담겨 있습니다.”" data-de="“Jede präzise Linie trägt das Gewicht klassischer Erzählungen.”">
+      “Every precise line carries the weight of classical narrative.”
+    </div>
+
+    <!-- 메인 작업 04 (LOOKBOOK) -->
+    <div class="look-item" data-category="lookbook">
+      <div class="look-img-wrap" onclick="openLightbox('artwork4.jpg')">
+        <img src="artwork4.jpg" alt="Artwork 04">
+      </div>
+      <div class="look-meta">
+        <div>
+          <span data-en="Plate No. 04" data-kr="플레이트 No. 04" data-de="Platte Nr. 04">Plate No. 04</span> &mdash; 
+          <span style="opacity: 0.7;" data-en="Medieval Folk" data-kr="중세 민속화" data-de="Mittelalterliche Folklore">Medieval Folk</span>
+        </div>
+        <span class="look-tag">CUSTOM</span>
+      </div>
+    </div>
+
+    <!-- 정보 및 애프터케어 섹션 추가 -->
+    <div class="aftercare-section look-item">
+      <div class="aftercare-header">
+        <h3 data-en="Information & Aftercare" data-kr="안내 사항 및 애프터케어" data-de="Informationen & Pflege">Information & Aftercare</h3>
+        <p data-en="Essential guidelines for your session and healing process." data-kr="시술 및 치유 과정에 필요한 핵심 가이드라인입니다." data-de="Wichtige Richtlinien für Ihre Sitzung und den Heilungsprozess.">Essential guidelines for your session and healing process.</p>
+      </div>
+
+      <div class="aftercare-grid">
+        <div class="care-card">
+          <span class="care-number">01</span>
+          <h4 data-en="Deposit & Booking" data-kr="예약금 및 확정" data-de="Anzahlung">Deposit & Booking</h4>
+          <p data-en="Appointments are secured only upon deposit confirmation. All sessions operate strictly on a private, pre-booked basis." 
+             data-kr="예약금 입금 확인 후 예약이 최종 확정됩니다. 모든 작업은 100% 프라이빗 예약제로 운영됩니다." 
+             data-de="Termine werden erst nach Anzahlung bestätigt. Ausschließlich nach vorheriger Vereinbarung.">
+            Appointments are secured only upon deposit confirmation. All sessions operate strictly on a private, pre-booked basis.
+          </p>
+        </div>
+
+        <div class="care-card">
+          <span class="care-number">02</span>
+          <h4 data-en="Before the Session" data-kr="시술 전 준비" data-de="Vor der Sitzung">Before the Session</h4>
+          <p data-en="Get a good night's rest, stay well-hydrated, and eat a proper meal before arriving. Avoid alcohol 24 hours prior." 
+             data-kr="방문 전 충분한 수면과 수분을 섭취하시고, 식사를 꼭 챙겨 드세요. 시술 전 24시간 내 음주는 금합니다." 
+             data-de="Ausreichend schlafen, gut hydriert sein und vor der Sitzung essen. Kein Alkohol 24 Stunden vorher.">
+            Get a good night's rest, stay well-hydrated, and eat a proper meal before arriving. Avoid alcohol 24 hours prior.
+          </p>
+        </div>
+
+        <div class="care-card">
+          <span class="care-number">03</span>
+          <h4 data-en="Healing & Aftercare" data-kr="발색 및 관리" data-de="Nachsorge">Healing & Aftercare</h4>
+          <p data-en="Keep the area clean, apply a thin layer of recommended ointment, and protect it from direct sunlight and scratching." 
+             data-kr="청결을 유지하고 추천드린 연고를 얇게 도포해 주세요. 직사광선 노출과 긁는 행위는 절대 금합니다." 
+             data-de="Sauber halten, dünn eincremen und vor direkter Sonneneinstrahlung sowie Kratzen schützen.">
+            Keep the area clean, apply a thin layer of recommended ointment, and protect it from direct sunlight and scratching.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lookbook-footer-info look-item">
+      <div class="info-col">
+        <h3 data-en="Studio Base" data-kr="스튜디오 위치" data-de="Studio">Studio Base</h3>
+        <p data-en="Frankfurt am Main, Germany" data-kr="독일 프랑크푸르트 암 마인" data-de="Frankfurt am Main, Deutschland">Frankfurt am Main, Germany</p>
+        <p data-en="Private Appointment Only" data-kr="100% 프라이빗 예약제 운영" data-de="Nur nach Vereinbarung">Private Appointment Only</p>
+      </div>
+      <div class="info-col">
+        <h3 data-en="Guest Tours" data-kr="게스트 투어" data-de="Gast-Tour">Guest Tours</h3>
+        <ul>
+          <li><strong>Palicassil, Italy:</strong> Nov 6 – 7, 2026[cite: 6]</li>
+          <li style="margin-top: 0.5rem; opacity: 0.6;" data-en="* Check Instagram for updates" data-kr="* 인스타그램 공지 참고" data-de="* Siehe Instagram">* Check Instagram for updates</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="final-copyright look-item">
+      <p>&copy; 2026 RIKO. ALL RIGHTS RESERVED.[cite: 6]</p>
+    </div>
+
+  </main>
+
+  <!-- 예약 폼 슬라이드 오버레이 -->
+  <div class="inquiry-overlay" id="inquiryOverlay">
+    <div class="inquiry-content">
+      <button class="close-overlay" onclick="toggleInquiry()" data-en="[ CLOSE ]" data-kr="[ 닫기 ]" data-de="[ SCHLIESSEN ]">[ CLOSE ]</button>
+      <h2 data-en="Commission Inquiry" data-kr="작업 의뢰 문의" data-de="Auftragsanfrage">Commission Inquiry</h2>
+      
+      <form id="contact-form" class="clean-form">
+        <div class="form-row-2">
+          <div class="form-group-clean">
+            <label for="from_name" data-en="Name" data-kr="성함" data-de="Name">Name</label>
+            <input type="text" id="from_name" name="from_name" class="clean-input" required>
+          </div>
+          <div class="form-group-clean">
+            <label for="from_email" data-en="Email" data-kr="이메일" data-de="E-Mail">Email</label>
+            <input type="email" id="from_email" name="from_email" class="clean-input" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-clean">
+            <label for="age" data-en="Age" data-kr="나이" data-de="Alter">Age</label>
+            <input type="text" id="age" name="age" class="clean-input" required>
+          </div>
+          <div class="form-group-clean">
+            <label for="phone" data-en="Phone" data-kr="전화번호" data-de="Telefon">Phone</label>
+            <input type="tel" id="phone" name="phone" class="clean-input" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-clean">
+            <label for="placement" data-en="Placement" data-kr="시술 부위" data-de="Platzierung">Placement</label>
+            <input type="text" id="placement" name="placement" class="clean-input" placeholder="e.g., Forearm" required>
+          </div>
+          <div class="form-group-clean">
+            <label for="size" data-en="Estimated Size" data-kr="예상 사이즈" data-de="Grösse">Estimated Size</label>
+            <input type="text" id="size" name="size" class="clean-input" placeholder="e.g., 15cm x 10cm" required>
+          </div>
+        </div>
+
+        <div class="form-group-clean">
+          <label for="project_type" data-en="Project Type" data-kr="작업 종류" data-de="Projekttyp">Project Type</label>
+          <select id="project_type" name="project_type" class="clean-input" required>
+            <option value="" disabled selected data-en="Select type" data-kr="종류를 선택하세요" data-de="Typ auswählen">Select type</option>
+            <option value="Custom Illustration" data-en="Custom Illustration Design" data-kr="커스텀 일러스트/삽화" data-de="Custom Illustration">Custom Illustration Design</option>
+            <option value="Available Flash" data-en="Available Flash Piece" data-kr="플래시 도안" data-de="Flash Piece">Available Flash Piece</option>
+            <option value="Cover-up / Touch-up" data-en="Cover-up / Touch-up" data-kr="커버업 / 터치업" data-de="Cover-up / Touch-up">Cover-up / Touch-up</option>
+          </select>
+        </div>
+
+        <div class="notice-mini" data-en="* Please send your reference images via Instagram DM after submitting."
+                                 data-kr="* 폼 제출 후, 참고 레퍼런스 이미지는 인스타그램 DM으로 보내주세요."
+                                 data-de="* Bitte senden Sie Referenzbilder per Instagram DM.">
+          * Please send your reference images via Instagram DM after submitting.
+        </div>
+
+        <div class="form-group-clean">
+          <label for="message" data-en="Concept & Details" data-kr="컨셉 및 세부 내용" data-de="Konzept & Details">Concept & Details</label>
+          <textarea id="message" name="message" class="clean-input" placeholder="Describe your concept..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit-clean" data-en="Send Inquiry" data-kr="문의 전송하기" data-de="Anfrage senden">Send Inquiry</button>
+      </form>
+
+      <a href="https://www.instagram.com/riko__kim" target="_blank" class="insta-direct" data-en="— OR CONTACT VIA INSTAGRAM DM —" data-kr="— 또는 인스타그램 DM으로 문의 —" data-de="— ODER ÜBER INSTAGRAM DM —">
+        — OR CONTACT VIA INSTAGRAM DM —
+      </a>
+    </div>
+  </div>
+
+  <!-- 이미지 라이트박스 오버레이 컴포넌트 -->
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <button class="lightbox-close" data-en="[ CLOSE ]" data-kr="[ 닫기 ]" data-de="[ SCHLIESSEN ]">[ CLOSE ]</button>
+    <img src="" alt="Zoomed Artwork" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- 모던 토스트 알림 컴포넌트 -->
+  <div id="toast"></div>
+
+  <script>
+    let currentLang = 'en';
+
+    const introData = [
+      {
+        en: { title: "Etching & Dark Illustration", desc: "Translating classical printmaking textures and dark medieval engraving narratives into permanent skin art." },
+        kr: { title: "에칭 & 다크 일러스트레이션", desc: "전통 판화의 질감과 중세 다크 인그레이빙 서사를 피부 위에 영원한 예술로 새겨냅니다." },
+        de: { title: "Radierung & Dunkle Illustration", desc: "Klassische Druckgrafik-Texturen und dunkle mittelalterliche Erzählungen als permanente Hautkunst." }
+      },
+      {
+        en: { title: "Permanent Intaglio & Blackwork", desc: "Capturing the melancholic beauty of antique etchings and dark fantasy folklore onto the canvas of skin." },
+        kr: { title: "인탈리오 & 블랙워크", desc: "엔틱 에칭의 우울한 아름다움과 다크 판타지 민속 설화를 피부의 캔버스 위에 담아냅니다." },
+        de: { title: "Permanent Intaglio & Blackwork", desc: "Die melancholische Schönheit antiker Radierungen und dunkler Fantasiefolklore auf der Haut." }
+      },
+      {
+        en: { title: "Fine-Line Etching Art", desc: "Permanent imprints of classical dark aesthetics, precise line work, and timeless narrative illustrations." },
+        kr: { title: "파인라인 에칭 아트", desc: "클래식한 다크 미학, 정교한 라인워크, 그리고 시대를 초월하는 서사적 일러스트레이션." },
+        de: { title: "Fine-Line Radierung", desc: "Permanente Abdrücke klassischer dunkler Ästhetik, präzise Linienarbeit und zeitlose Narrative." }
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function rotateIntroText() {
+      const introEl = document.getElementById('introSection');
+      const titleEl = document.getElementById('introTitle');
+      const descEl = document.getElementById('introDesc');
+
+      introEl.classList.remove('fade-in');
+
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % introData.length;
+        const current = introData[currentIndex][currentLang];
+
+        titleEl.textContent = current.title;
+        descEl.textContent = current.desc;
+
+        introEl.classList.add('fade-in');
+      }, 600);
+    }
+
+    setInterval(rotateIntroText, 5000);
+
+    // 초기 접속 시 로컬스토리지 테마 불러오기 및 적용
+    (function initTheme() {
+      const savedTheme = localStorage.getItem('riko_theme');
+      if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isLight = html.getAttribute('data-theme') === 'light';
+
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('riko_theme', 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('riko_theme', 'light');
+      }
+
+      updateThemeButtonText();
+    }
+
+    function updateThemeButtonText() {
+      const html = document.documentElement;
+      const themeText = document.getElementById('themeText');
+      const isLight = html.getAttribute('data-theme') === 'light';
+      
+      if (currentLang === 'kr') {
+        themeText.textContent = isLight ? themeText.dataset.krLight : themeText.dataset.krDark;
+      } else if (currentLang === 'de') {
+        themeText.textContent = isLight ? themeText.dataset.deLight : themeText.dataset.deDark;
+      } else {
+        themeText.textContent = isLight ? themeText.dataset.enLight : themeText.dataset.enDark;
+      }
+    }
+
+    function toggleInquiry() {
+      const overlay = document.getElementById('inquiryOverlay');
+      overlay.classList.toggle('active');
+    }
+
+    // 카테고리 탭 필터링 함수
+    function filterCategory(category, btnElement) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      const items = document.querySelectorAll('.look-item');
+      items.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        
+        // 공통 요소(아티스트 노트, 푸터, 애프터케어 등 카테고리 지정이 없는 것)는 항상 표시
+        if (category === 'all' || !itemCategory) {
+          item.classList.remove('hidden');
+        } else {
+          if (itemCategory === category) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // 라이트박스 열기/닫기 함수
+    function openLightbox(imgSrc) {
+      const overlay = document.getElementById('lightboxOverlay');
+      const img = document.getElementById('lightboxImg');
+      img.src = imgSrc;
+      overlay.classList.add('active');
+    }
+
+    function closeLightbox() {
+      const overlay = document.getElementById('lightboxOverlay');
+      overlay.classList.remove('active');
+    }
+
+    // 모던 토스트 알림 함수
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-s-btn').forEach(b => b.classList.remove('active'));
+      if(lang === 'en') document.querySelectorAll('.lang-s-btn')[0].classList.add('active');
+      if(lang === 'kr') document.querySelectorAll('.lang-s-btn')[1].classList.add('active');
+      if(lang === 'de') document.querySelectorAll('.lang-s-btn')[2].classList.add('active');
+
+      const current = introData[currentIndex][lang];
+      document.getElementById('introTitle').textContent = current.title;
+      document.getElementById('introDesc').textContent = current.desc;
+
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (el.dataset[lang]) {
+          el.innerHTML = el.dataset[lang];
+        }
+      });
+
+      updateThemeButtonText();
+    }
+
+    // 프리로더 처리
+    window.addEventListener("load", function () {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('fade-out');
+      }, 1000);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll(".look-item").forEach((el) => {
+        observer.observe(el);
+      });
+
+      updateThemeButtonText();
+    });
+
+    // EmailJS 전송 로직 + 토스트 연동
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = this;
+      const btn = form.querySelector('.btn-submit-clean');
+      const orgText = btn.innerHTML;
+
+      let sending = "SENDING...";
+      if(currentLang === 'kr') sending = "전송 중...";
+      if(currentLang === 'de') sending = "WIRD GESENDET...";
+
+      btn.innerHTML = sending;
+      btn.disabled = true;
+
+      emailjs.sendForm('service_kiwa', 'template_ahfvhka', form)
+        .then(() => {
+          let ok = "Inquiry sent successfully!";
+          if(currentLang === 'kr') ok = "문의가 성공적으로 전송되었습니다!";
+          if(currentLang === 'de') ok = "Anfrage erfolgreich gesendet!";
+          
+          showToast(ok);
+          form.reset();
+          btn.innerHTML = orgText;
+          btn.disabled = false;
+          toggleInquiry();
+        }, (err) => {
+          showToast("Failed to send inquiry.");
+          btn.innerHTML = orgText;
+          btn.disabled = false;
+        });
+    });
+  </script>
+</body>
+</html>
