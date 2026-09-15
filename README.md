@@ -1,0 +1,1 @@
+# rikokim19.github.io
