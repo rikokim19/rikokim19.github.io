@@ -12,7 +12,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
       (function() {
-          emailjs.init("dB0Q2cv_50XALAZq4");
+          emailjs.init("Nv7C6aO7RtEX3JIBx");
       })();
   </script>
 
@@ -1076,7 +1076,7 @@
       updateThemeButtonText();
     });
 
-    // EmailJS 전송 로직 + 토스트 연동 (service_rikokim으로 수정 완료)
+    // EmailJS 전송 로직 + 토스트 연동 (퍼블릭키 및 템플릿 ID 업데이트 완료)
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = this;
@@ -1090,7 +1090,7 @@
       btn.innerHTML = sending;
       btn.disabled = true;
 
-      emailjs.sendForm('service_rikokim', 'template_ahfvhka', form)
+      emailjs.sendForm('service_rikokim', 'template_lu8150j', form)
         .then(() => {
           let ok = "Inquiry sent successfully!";
           if(currentLang === 'kr') ok = "문의가 성공적으로 전송되었습니다!";
