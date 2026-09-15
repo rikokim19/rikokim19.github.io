@@ -227,6 +227,32 @@
       font-size: 0.7rem;
     }
 
+    /* 인라인 부킹 버튼 영역 스타일 */
+    .inline-booking-wrap {
+      display: flex;
+      justify-content: center;
+      margin: -4rem 0 -3rem 0;
+    }
+
+    .inline-booking-btn {
+      background: transparent;
+      border: 1px solid rgba(128, 128, 128, 0.4);
+      color: var(--text);
+      padding: 0.9rem 2.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .inline-booking-btn:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
     /* 아티스트 노트 스타일 */
     .artist-quote {
       text-align: center;
@@ -468,7 +494,6 @@
       backdrop-filter: blur(10px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      /* 상단 인스타 바 영역(약 60px)을 고려해 패딩 대폭 상향 및 하단 여유 추가 */
       padding: 7rem 1.5rem 6rem 1.5rem; 
     }
 
@@ -677,6 +702,11 @@
       <button class="tab-btn" onclick="filterCategory('lookbook', this)" data-en="LOOKBOOK" data-kr="갤러리" data-de="LOOKBOOK">LOOKBOOK</button>
       <span class="tab-divider">/</span>
       <button class="tab-btn" onclick="filterCategory('wannado', this)" data-en="WANNADO" data-kr="워너두 도안" data-de="WANNADO">WANNADO</button>
+    </div>
+
+    <!-- 부킹(예약문의) 버튼 영역 (언어별 자동 전환 지원) -->
+    <div class="inline-booking-wrap look-item">
+      <button class="inline-booking-btn" onclick="toggleInquiry()" data-en="BOOK AN APPOINTMENT" data-kr="예약 문의하기" data-de="TERMIN ANFRAGEN">BOOK AN APPOINTMENT</button>
     </div>
 
     <!-- 1. 첫 번째 아티스트 노트 -->
