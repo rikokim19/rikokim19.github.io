@@ -996,7 +996,6 @@
       items.forEach(item => {
         const itemCategory = item.getAttribute('data-category');
         
-        // 공통 요소(아티스트 노트, 푸터, 애프터케어 등 카테고리 지정이 없는 것)는 항상 표시
         if (category === 'all' || !itemCategory) {
           item.classList.remove('hidden');
         } else {
@@ -1076,7 +1075,7 @@
       updateThemeButtonText();
     });
 
-    // EmailJS 전송 로직 + 토스트 연동 (퍼블릭키 및 템플릿 ID 업데이트 완료)
+    // EmailJS 전송 로직 (400 에러 방지를 위해 templateParams 객체 직접 매핑 적용)
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = this;
@@ -1090,7 +1089,18 @@
       btn.innerHTML = sending;
       btn.disabled = true;
 
-      emailjs.sendForm('service_rikokim', 'template_lu8150j', form)
+      var templateParams = {
+        from_name: document.getElementById('from_name').value,
+        from_email: document.getElementById('from_email').value,
+        age: document.getElementById('age').value,
+        phone: document.getElementById('phone').value,
+        placement: document.getElementById('placement').value,
+        size: document.getElementById('size').value,
+        project_type: document.getElementById('project_type').value,
+        message: document.getElementById('message').value
+      };
+
+      emailjs.send('service_rikokim', 'template_lu8150j', templateParams)
         .then(() => {
           let ok = "Inquiry sent successfully!";
           if(currentLang === 'kr') ok = "문의가 성공적으로 전송되었습니다!";
@@ -1109,6 +1119,7 @@
           showToast(fail);
           btn.innerHTML = orgText;
           btn.disabled = false;
+          console.error('EmailJS Error:', err);
         });
     });
   </script>
