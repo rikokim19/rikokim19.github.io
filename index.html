@@ -22,7 +22,7 @@
       --text: #f0f0f0;
       --sub: #777777;
       --accent: #ffffff;
-      --overlay-bg: rgba(13, 13, 13, 0.96);
+      --overlay-bg: rgba(13, 13, 13, 0.98);
     }
 
     [data-theme="light"] {
@@ -30,7 +30,7 @@
       --text: #111111;
       --sub: #888888;
       --accent: #111111;
-      --overlay-bg: rgba(244, 244, 244, 0.96);
+      --overlay-bg: rgba(244, 244, 244, 0.98);
     }
 
     * {
@@ -450,7 +450,7 @@
       list-style: none;
     }
 
-    /* [수정됨] 인스타그램 인앱 브라우저 대응을 위한 오버레이 및 닫기 버튼 스타일 수정 */
+    /* [인스타그램 인앱 브라우저 완벽 대응 수정] */
     .inquiry-overlay {
       position: fixed;
       top: 0;
@@ -461,14 +461,15 @@
       z-index: 2000;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* 상단부터 정렬되도록 변경 */
+      align-items: flex-start;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
       backdrop-filter: blur(10px);
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
-      padding: 5rem 1.5rem 4rem 1.5rem; /* 상단에 충분한 여백을 주어 이름 칸이 잘리지 않게 함 */
+      -webkit-overflow-scrolling: touch;
+      /* 상단 인스타 바 영역(약 60px)을 고려해 패딩 대폭 상향 및 하단 여유 추가 */
+      padding: 7rem 1.5rem 6rem 1.5rem; 
     }
 
     .inquiry-overlay.active {
@@ -483,7 +484,7 @@
     }
 
     .close-overlay {
-      position: fixed; /* absolute에서 fixed로 변경하여 스크롤과 무관하게 항상 고정 */
+      position: fixed;
       top: 1.5rem;
       right: 1.5rem;
       background: var(--bg);
