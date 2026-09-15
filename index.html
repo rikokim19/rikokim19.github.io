@@ -811,14 +811,14 @@
       <div class="info-col">
         <h3 data-en="Guest Tours" data-kr="게스트 투어" data-de="Gast-Tour">Guest Tours</h3>
         <ul>
-          <li><strong>Palicassil, Italy:</strong> Nov 6 – 7, 2026[cite: 6]</li>
+          <li><strong>Palicassil, Italy:</strong> Nov 6 – 7, 2026</li>
           <li style="margin-top: 0.5rem; opacity: 0.6;" data-en="* Check Instagram for updates" data-kr="* 인스타그램 공지 참고" data-de="* Siehe Instagram">* Check Instagram for updates</li>
         </ul>
       </div>
     </div>
 
     <div class="final-copyright look-item">
-      <p>&copy; 2026 RIKO. ALL RIGHTS RESERVED.[cite: 6]</p>
+      <p>&copy; 2026 RIKO. ALL RIGHTS RESERVED.</p>
     </div>
 
   </main>
@@ -1076,7 +1076,7 @@
       updateThemeButtonText();
     });
 
-    // EmailJS 전송 로직 + 토스트 연동
+    // EmailJS 전송 로직 + 토스트 연동 (수정 완료)
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = this;
@@ -1102,7 +1102,11 @@
           btn.disabled = false;
           toggleInquiry();
         }, (err) => {
-          showToast("Failed to send inquiry.");
+          let fail = "Failed to send inquiry.";
+          if(currentLang === 'kr') fail = "문의 전송에 실패했습니다.";
+          if(currentLang === 'de') fail = "Senden der Anfrage fehlgeschlagen.";
+
+          showToast(fail);
           btn.innerHTML = orgText;
           btn.disabled = false;
         });
